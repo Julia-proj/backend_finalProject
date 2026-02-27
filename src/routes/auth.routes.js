@@ -1,13 +1,13 @@
 import { Router } from 'express';                           // 📦 FÓRMULA
-import { register, login } from '../controllers/auth.controller.js';
+import { register, login, me } from '../controllers/auth.controller.js';
+import { authMiddleware } from '../middlewares/auth.middleware.js';
 
 const router = Router();                                    // 📦 FÓRMULA
 
-// POST /api/auth/register — sin middleware, es pública
 router.post('/register', register);
-
-// POST /api/auth/login — sin middleware, es pública
 router.post('/login', login);
 
-export default router;                                      // 📦 FÓRMULA
+// AÑADIR — requiere token para saber quién soy
+router.get('/me', authMiddleware, me);
 
+export default router;

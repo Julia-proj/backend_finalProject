@@ -55,3 +55,12 @@ export const loginUser = async ({ email, password }) => {
     user: { id: user._id, name: user.name, email: user.email, role: user.role }
   };
 };
+
+export const getMe = async (userId) => {
+  const user = await User.findById(userId).select('-password');
+  // .select('-password') = devuelve todo EXCEPTO password — seguro
+  if (!user) {
+    throw { status: 404, message: 'Usuario no encontrado' };
+  }
+  return { id: user._id, name: user.name, email: user.email, role: user.role };
+};
